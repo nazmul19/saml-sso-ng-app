@@ -1,0 +1,28 @@
+import { Component } from '@angular/core';
+import { first } from 'rxjs/operators';
+
+import { User } from '../_models';
+import { UserService, AuthenticationService } from '../_services';
+
+@Component({ templateUrl: 'home.component.html' })
+export class HomeComponent {
+    loading = false;
+    users: User[];
+    accountResponse: any;
+
+    constructor(private userService: UserService) { }
+
+    ngOnInit() {
+        this.loading = true;
+        // this.userService.getAll().pipe(first()).subscribe(users => {
+        //     this.loading = false;
+        //     this.users = users;
+        // });
+
+        this.userService.getAllAccounts().pipe(first()).subscribe(accountResponse => {
+            this.loading = false;
+            console.log(accountResponse);
+            this.accountResponse = accountResponse;
+        });
+    }
+}
